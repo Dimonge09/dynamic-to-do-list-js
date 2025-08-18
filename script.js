@@ -1,50 +1,50 @@
-// 1) Run after the HTML is ready
+// Wait for page to load before running script
 document.addEventListener("DOMContentLoaded", function () {
-  // 2) Grab DOM elements
-  const addButton = document.getElementById("add-task-btn");
-  const taskInput = document.getElementById("task-input");
-  const taskList  = document.getElementById("task-list");
+  // Select DOM elements by their IDs
+  const addButton = document.getElementById("add-task-btn"); // Add button
+  const taskInput = document.getElementById("task-input");   // Input field
+  const taskList  = document.getElementById("task-list");    // Task list container
 
-  // 3) Add Task function
+  // Function to add a new task
   function addTask() {
-    const taskText = taskInput.value.trim(); // must be named taskText
+    const taskText = taskInput.value.trim(); // get and clean user input
 
     if (taskText === "") {
       alert("Please enter a task!");
-      return;
+      return; // stop if input is empty
     }
 
-    // --- Task Creation and Removal (exact steps the checker expects) ---
+    // --- Task Creation and Removal (step by step as required) ---
+
+    // 1. Create a new li element and set its textContent
     const li = document.createElement("li");
-    li.textContent = taskText; // set textContent to taskText
+    li.textContent = taskText;
 
+    // 2. Create a remove button
     const removeBtn = document.createElement("button");
-    removeBtn.textContent = "Remove";     // must be exactly "Remove"
-    removeBtn.className = "remove-btn";   // must use this class name
+    removeBtn.textContent = "Remove";      // set button text
+    removeBtn.classList.add("remove-btn"); // add class using classList.add ✅
 
-    // Use onclick (not addEventListener) per the instructions
+    // 3. Assign an onclick event to remove the li from taskList
     removeBtn.onclick = function () {
-      // The checker often expects removeChild, not element.remove()
       taskList.removeChild(li);
     };
 
+    // 4. Append remove button inside li
     li.appendChild(removeBtn);
+
+    // 5. Append li inside the task list
     taskList.appendChild(li);
 
-    // Clear input
+    // 6. Clear the input field
     taskInput.value = "";
   }
 
-  // 4) Attach Event Listeners (exact types & logic)
-  addButton.addEventListener("click", addTask);
-
+  // Attach Event Listeners
+  addButton.addEventListener("click", addTask); // when button clicked
   taskInput.addEventListener("keypress", function (event) {
     if (event.key === "Enter") {
-      addTask();
+      addTask(); // when Enter key is pressed
     }
   });
-
-  // (Optional) If your rubric insists on invoking addTask on DOM load,
-  // uncomment the next line. It may trigger an alert if the input is empty.
-  // addTask();
 });
